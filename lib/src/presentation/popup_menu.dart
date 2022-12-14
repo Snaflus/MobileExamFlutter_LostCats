@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_exam_flutter_lostcats/src/application/firebase_providers.dart';
 
+import 'login_page.dart';
+
 class PopupMenu extends ConsumerWidget {
   const PopupMenu({super.key});
 
@@ -28,7 +30,7 @@ class PopupMenu extends ConsumerWidget {
           case 0:
             {
               if (loggedIn == false) {
-                //Navigator.of(context).push(MaterialPageRoute(builder: (context) => login_page()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage(title: 'Login page',)));
               } else {
                 firebase.signOut();
               }
