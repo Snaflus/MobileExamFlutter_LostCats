@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mobile_exam_flutter_lostcats/src/application/firebase_providers.dart';
+import 'package:mobile_exam_flutter_lostcats/src/data/firebase_providers.dart';
 
 import 'login_page.dart';
 

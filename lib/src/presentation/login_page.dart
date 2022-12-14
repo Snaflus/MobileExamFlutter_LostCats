@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
 
-import '../application/firebase_providers.dart';
+import '../data/firebase_providers.dart';
 import '../domain/cat.dart';
 
 final usernameController = TextEditingController();
