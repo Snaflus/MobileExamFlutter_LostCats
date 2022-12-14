@@ -41,7 +41,7 @@ class CatRepository {
     if (response.statusCode == 201) { //201 CREATED
       return Cat.fromJson(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to create album.');
+      throw Exception('Failed to create cat');
     }
   }
 }
