@@ -45,7 +45,7 @@ class Cat {
   // };
 
   factory Cat.fromJson(Map<String, dynamic> json) {
-    return Cat.json(json['id'],json['name'],json['price'],json['place'],json['reward'],json['userId'],json['date'],json['pictureUrl']
+    return Cat.json(json['id'],json['name'],json['description'],json['place'],json['reward'],json['userId'],json['date'],json['pictureUrl']
     );
   }
 

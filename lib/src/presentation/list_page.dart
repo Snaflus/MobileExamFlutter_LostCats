@@ -1,21 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_exam_flutter_lostcats/src/data/cat_repository.dart';
-import 'package:mobile_exam_flutter_lostcats/src/domain/cat_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_exam_flutter_lostcats/src/presentation/details_page.dart';
 
-import '../domain/Cat.dart';
+import '../data/cat_providers.dart';
+import '../domain/cat.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key, required this.title});
-
   final String title;
 
   @override
   State<ListPage> createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage> {
-  final viewModel = CatViewModel();
+class CatList extends ConsumerWidget {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cats = ref.watch(catsDataProvider);
 
+    return cats.when(
+      loading: () => const CircularProgressIndicator(),
+      error: (err, stack) => Text('Error: $err'),
+      data: (cats) {
+        List<Cat> catList = cats.map((e) => e).toList();
+        return Expanded(
+          child: ListView.builder(
+              itemCount: catList.length,
+              itemBuilder: (_, index) {
+                return InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DetailsPage(title: "", cat: catList[index]))),
+                  child: Card(
+                    child: ListTile(
+                      title: Text(catList[index].name),
+                      subtitle: Text(catList[index].place),
+                      trailing: CircleAvatar(backgroundImage: AssetImage('images/cat.png'),),
+                    ),
+                  ),
+                );
+              }),
+        );
+      },
+    );
+  }
+}
+
+class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,26 +52,19 @@ class _ListPageState extends State<ListPage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            FutureBuilder(
-              future: viewModel.getCats(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(snapshot.data!.toString());
-                } else {
-                  return Text("Error");
-                }
-              },
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CatList(),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          viewModel.reload();
-          //print(viewModel.cats.toString());
+
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

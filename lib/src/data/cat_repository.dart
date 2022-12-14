@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:mobile_exam_flutter_lostcats/src/domain/cat.dart';
 const url = "https://anbo-restlostcats.azurewebsites.net/api/Cats";
 
-class CatRepository {
-  List<Cat> cats = List.empty(growable: true);
+final catRepositoryProvider = Provider<CatRepository>((ref){
+  return CatRepository();
+});
 
+class CatRepository {
   Future<Cat?> getCat(int id) async {
     final response = await http.get(Uri.parse("$url/$id"));
 
