@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_exam_flutter_lostcats/src/presentation/details_page.dart';
+import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
 
 import '../data/cat_providers.dart';
 import '../domain/cat.dart';
@@ -62,13 +63,14 @@ class _ListPageState extends State<ListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: const [PopupMenu()],
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: const <Widget>[
               CatList(),
             ],
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
 
 import '../domain/cat.dart';
 
@@ -13,6 +14,7 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: const [PopupMenu()],
       ),
       body: Center(
         child: Padding(
