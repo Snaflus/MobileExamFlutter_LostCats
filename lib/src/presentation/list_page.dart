@@ -4,7 +4,9 @@ import 'package:mobile_exam_flutter_lostcats/src/presentation/details_page.dart'
 import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
 
 import '../data/cat_providers.dart';
+import '../data/firebase_providers.dart';
 import '../domain/cat.dart';
+import 'create_page.dart';
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key, required this.title});
@@ -57,6 +59,34 @@ class CatList extends ConsumerWidget {
   }
 }
 
+class AddCatFAB extends ConsumerWidget {
+  const AddCatFAB({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(authStateChangesProvider); //listens and rebuilds widget
+    var firebase = ref.read(firebaseAuthProvider); //used to pass functions
+
+    return FloatingActionButton(
+      onPressed: () {
+        if (firebase.currentUser != null) {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const CreatePage(
+                    title: 'Add a cat',
+                  )));
+        } else {
+          const snackBar = SnackBar(
+            content: Text("Add cat only available for logged in users"),
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+      tooltip: 'Increment',
+      child: const Icon(Icons.add),
+    );
+  }
+}
+
 class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
@@ -76,13 +106,7 @@ class _ListPageState extends State<ListPage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => create_page()));
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: const AddCatFAB(),
     );
   }
 }
