@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/cat.dart';
@@ -10,6 +9,7 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -20,14 +20,14 @@ class DetailsPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image(image: AssetImage('images/cat.png'),),
+              const Image(image: AssetImage('images/cat.png'),),
               Text(cat.id.toString()),
               Text(cat.name),
               Text(cat.description),
               Text(cat.place),
               Text(cat.reward.toString()),
               Text(cat.userId),
-              Text(cat.date.toString()),
+              Text(cat.humanDate()),
               Container(
                 child: cat.pictureUrl != null ? Text(cat.pictureUrl!) : null,
               )
