@@ -26,24 +26,29 @@ class CatList extends ConsumerWidget {
       data: (cats) {
         List<Cat> catList = cats.map((e) => e).toList();
         return Expanded(
-          child: ListView.builder(
-            itemCount: catList.length,
-            itemBuilder: (_, index) {
-              return InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        DetailsPage(title: "", cat: catList[index]))),
-                child: Card(
-                  child: ListTile(
-                    title: Text(catList[index].name),
-                    subtitle: Text(catList[index].place),
-                    trailing: const CircleAvatar(
-                      backgroundImage: AssetImage('images/cat.png'),
+          child: RefreshIndicator(
+            onRefresh: () async {
+              return await ref.refresh(catsDataProvider);
+            },
+            child: ListView.builder(
+              itemCount: catList.length,
+              itemBuilder: (_, index) {
+                return InkWell(
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          DetailsPage(title: "", cat: catList[index]))),
+                  child: Card(
+                    child: ListTile(
+                      title: Text(catList[index].name),
+                      subtitle: Text(catList[index].place),
+                      trailing: const CircleAvatar(
+                        backgroundImage: AssetImage('images/cat.png'),
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         );
       },
@@ -70,7 +75,9 @@ class _ListPageState extends State<ListPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          //Navigator.of(context).push(MaterialPageRoute(builder: (context) => create_page()));
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
