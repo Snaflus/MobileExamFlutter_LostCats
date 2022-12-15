@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_exam_flutter_lostcats/src/data/cat_providers.dart';
 import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
 
 import '../data/cat_repository.dart';
@@ -22,14 +23,32 @@ class DeleteButton extends ConsumerWidget {
         style: const ButtonStyle(
           backgroundColor: MaterialStatePropertyAll<Color>(Colors.red),
         ),
-        onPressed: () async {
-          try {
-            final operation = await cats.deleteCat(cat.id);
-          } on Exception catch (e) {
-            debugPrint(e.toString());
-          }
-          Navigator.pop(context);
-        },
+        onPressed: () => showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Confirm deletion'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: [Text("Cat: '${cat.name}' at '${cat.place}'")],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () async {
+                    try {
+                      final operation = await cats.deleteCat(cat.id);
+                    } on Exception catch (e) {
+                      debugPrint(e.toString());
+                    }
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    ref.invalidate(catsDataProvider);
+                  },
+                  child: const Text("Confirm")),
+              TextButton(onPressed: () => Navigator.pop(context, 'Cancel'),
+                  child: const Text("Cancel"))
+            ],
+          ),
+        ),
         child: const Text(
           'Delete cat',
           style: TextStyle(fontSize: 18),
