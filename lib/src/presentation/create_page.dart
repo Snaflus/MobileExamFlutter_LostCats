@@ -39,14 +39,14 @@ class SubmitButton extends ConsumerWidget {
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
               try {
-                final operation = await cats.postCat(
-                  Cat.createWithoutPicture(
-                      nameController.text,
-                      descController.text,
-                      placeController.text,
-                      int.parse(rewardController.text),
-                      firebase.currentUser!.email!),
-                );
+                Cat cat = Cat.createWithoutPicture(
+                    nameController.text,
+                    descController.text,
+                    placeController.text,
+                    int.parse(rewardController.text),
+                    firebase.currentUser!.email!);
+                debugPrint("DEBUG $cat");
+                final operation = await cats.postCat(cat);
               } on Exception catch (e) {
                 debugPrint(e.toString());
               }
