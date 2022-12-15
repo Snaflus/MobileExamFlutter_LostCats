@@ -2,26 +2,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
-import 'package:mobile_exam_flutter_lostcats/src/presentation/register_page.dart';
 
 import '../data/firebase_providers.dart';
 import '../domain/cat.dart';
 
 final usernameController = TextEditingController();
 final passwordController = TextEditingController();
+final passwordRepeatController = TextEditingController();
 final _formKey = GlobalKey<FormState>();
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.title});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class LoginButton extends ConsumerWidget {
-  const LoginButton({super.key});
+class RegisterButton extends ConsumerWidget {
+  const RegisterButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,26 +37,33 @@ class LoginButton extends ConsumerWidget {
           onPressed: () async {
             if (_formKey.currentState!.validate()) {
               try {
-                final credential = await firebase.signInWithEmailAndPassword(
-                    email: usernameController.text,
-                    password: passwordController.text);
+                final credential =
+                    await firebase.createUserWithEmailAndPassword(
+                        email: usernameController.text,
+                        password: passwordController.text);
               } on FirebaseAuthException catch (e) {
                 switch (e.code) {
-                  case 'user-not-found':
+                  case 'email-already-in-use':
                     {
-                      debugPrint('No user found for that email.');
+                      debugPrint('Provided email already in use');
                     }
-                    break;
 
-                  case 'wrong-password':
+                    break;
+                  case 'invalid-email':
                     {
-                      debugPrint('Wrong password provided for that user.');
+                      debugPrint('Provided email not valid');
+                    }
+
+                    break;
+                  case 'weak-password':
+                    {
+                      debugPrint('Provided password too weak');
                     }
                     break;
 
                   default:
                     {
-                      debugPrint('Unexpected FirebaseAuthException in login');
+                      debugPrint('Unexpected FirebaseAuthException in register');
                     }
                     break;
                 }
@@ -69,7 +76,7 @@ class LoginButton extends ConsumerWidget {
             }
           },
           child: const Text(
-            'Login',
+            'Register',
             style: TextStyle(fontSize: 18),
           ),
         ),
@@ -78,7 +85,7 @@ class LoginButton extends ConsumerWidget {
   }
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,8 +95,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.only(
-              top: 128 + 64, left: 8, right: 8, bottom: 8),
+          padding: const EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
           child: Form(
             key: _formKey,
             child: Column(
@@ -130,24 +136,28 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                const LoginButton(),
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const RegisterPage(
-                                    title: 'Register page',
-                                  )));
-                        },
-                        child: const Text("Register"),
-                      ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child: TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Input password';
+                      }
+                      if (value != passwordController.text) {
+                        return 'Passwords must match';
+                      }
+                      return null;
+                    },
+                    controller: passwordRepeatController,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Repeat password',
                     ),
                   ),
                 ),
+                const RegisterButton(),
               ],
             ),
           ),
