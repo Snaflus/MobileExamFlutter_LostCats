@@ -4,9 +4,13 @@ import 'package:mobile_exam_flutter_lostcats/src/presentation/details_page.dart'
 import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
 
 import '../data/cat_providers.dart';
+import '../data/cat_repository.dart';
 import '../data/firebase_providers.dart';
 import '../domain/cat.dart';
 import 'create_page.dart';
+
+List<Cat> catList = List.empty();
+//late List<Cat> catList;
 
 class ListPage extends StatefulWidget {
   const ListPage({super.key, required this.title});
@@ -27,7 +31,7 @@ class CatList extends ConsumerWidget {
       loading: () => const CircularProgressIndicator(),
       error: (err, stack) => Text('Error: $err'),
       data: (cats) {
-        List<Cat> catList = cats.map((e) => e).toList();
+        catList = cats.map((e) => e).toList();
         return Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
@@ -38,8 +42,8 @@ class CatList extends ConsumerWidget {
               itemBuilder: (_, index) {
                 return InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          DetailsPage(title: "Cat details", cat: catList[index]))),
+                      builder: (context) => DetailsPage(
+                          title: "Cat details", cat: catList[index]))),
                   child: Card(
                     child: ListTile(
                       title: Text(catList[index].name),
@@ -87,13 +91,104 @@ class AddCatFAB extends ConsumerWidget {
   }
 }
 
+class CatSearchDelegate extends SearchDelegate {
+  //clear search text when clicked
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = "";
+        },
+        icon: const Icon(Icons.clear),
+      ),
+    ];
+  }
+
+  //create back arrow
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  //show query after search
+  @override
+  Widget buildResults(BuildContext context) {
+    List<Cat> matchQuery = [];
+    for (var data in catList) {
+      if (data.name.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(data);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return InkWell(
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  DetailsPage(title: "Cat details", cat: result))),
+          child: ListTile(
+            title: Text(result.name),
+            subtitle: Text(result.place),
+            trailing: const CircleAvatar(
+            backgroundImage: AssetImage('images/cat.png'),
+          ),
+          ),
+        );
+      },
+    );
+  }
+
+  //show query while typing
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<Cat> matchQuery = [];
+    for (var data in catList) {
+      if (data.name.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(data);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return InkWell(
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+                  DetailsPage(title: "Cat details", cat: result))),
+          child: ListTile(
+            title: Text(result.name),
+            subtitle: Text(result.place),
+            trailing: const CircleAvatar(
+              backgroundImage: AssetImage('images/cat.png'),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _ListPageState extends State<ListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: const [PopupMenu()],
+        actions: [
+          IconButton(
+              onPressed: () {
+                showSearch(context: context, delegate: CatSearchDelegate());
+              },
+              icon: const Icon(Icons.search)),
+          const PopupMenu()
+        ],
       ),
       body: Center(
         child: Padding(
