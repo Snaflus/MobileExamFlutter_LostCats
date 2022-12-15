@@ -47,4 +47,14 @@ class CatRepository {
       throw Exception('Failed to create cat');
     }
   }
+
+  Future<Cat> deleteCat(int id) async {
+    final response = await http.delete(Uri.parse("$url/$id"));
+
+    if (response.statusCode == 200) { //200 OK
+      return Cat.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failed to delete cat");
+    }
+  }
 }

@@ -39,7 +39,7 @@ class CatList extends ConsumerWidget {
                 return InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) =>
-                          DetailsPage(title: "", cat: catList[index]))),
+                          DetailsPage(title: "Cat details", cat: catList[index]))),
                   child: Card(
                     child: ListTile(
                       title: Text(catList[index].name),
