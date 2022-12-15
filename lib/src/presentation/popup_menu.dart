@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_exam_flutter_lostcats/src/data/firebase_providers.dart';
+import 'package:mobile_exam_flutter_lostcats/src/presentation/settings_page.dart';
 
 import 'login_page.dart';
 
@@ -40,7 +41,7 @@ class PopupMenu extends ConsumerWidget {
 
           case 1:
             {
-              debugPrint("Settings placeholder clicked");
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SettingsPage(title: 'Settings page',)));
             }
             break;
 
