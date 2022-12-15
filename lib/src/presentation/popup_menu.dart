@@ -33,6 +33,7 @@ class PopupMenu extends ConsumerWidget {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage(title: 'Login page',)));
               } else {
                 firebase.signOut();
+                Navigator.popUntil(context, (route) => route.isFirst);
               }
             }
             break;

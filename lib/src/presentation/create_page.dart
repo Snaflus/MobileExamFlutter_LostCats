@@ -69,7 +69,7 @@ class _CreatePageState extends State<CreatePage> {
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          //actions: const [PopupMenu()], //logging out on create cat page produces unintended behaviour
+          actions: const [PopupMenu()],
         ),
         body: Center(
           child: Padding(
