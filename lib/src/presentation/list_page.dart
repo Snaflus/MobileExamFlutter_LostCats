@@ -206,7 +206,7 @@ class SortingOptions extends ConsumerWidget {
                   ? ThemeData.dark().colorScheme.secondary
                   : ThemeData.light().colorScheme.secondary,
               shadowColor: Colors.black,
-              avatar: Icon(Icons.sort_by_alpha,
+              avatar: Icon(Icons.sort,
                   color: isDarkMode
                       ? ThemeData.dark().primaryColor
                       : ThemeData.light().colorScheme.onSecondary),
@@ -242,7 +242,7 @@ class SortingOptions extends ConsumerWidget {
                   ? ThemeData.dark().colorScheme.secondary
                   : ThemeData.light().colorScheme.secondary,
               shadowColor: Colors.black,
-              avatar: Icon(Icons.sort_by_alpha,
+              avatar: Icon(Icons.sort,
                   color: isDarkMode
                       ? ThemeData.dark().primaryColor
                       : ThemeData.light().colorScheme.onSecondary),
@@ -278,7 +278,7 @@ class SortingOptions extends ConsumerWidget {
                   ? ThemeData.dark().colorScheme.secondary
                   : ThemeData.light().colorScheme.secondary,
               shadowColor: Colors.black,
-              avatar: Icon(Icons.sort_by_alpha,
+              avatar: Icon(Icons.sort,
                   color: isDarkMode
                       ? ThemeData.dark().primaryColor
                       : ThemeData.light().colorScheme.onSecondary),
