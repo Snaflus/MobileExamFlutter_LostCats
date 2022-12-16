@@ -28,6 +28,7 @@ class CatList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cats = ref.watch(catsDataProvider);
     int? sortingValue = int.parse(ref.watch(chipCounterProvider).toString());
+    bool sortingDirection = ref.watch(chipCounterDirectionProvider);
 
     return cats.when(
       loading: () => const CircularProgressIndicator(),
@@ -36,19 +37,29 @@ class CatList extends ConsumerWidget {
         catList = cats.map((e) => e).toList();
         switch (sortingValue) {
           case 1:
-            catList.sort((a, b) => a.name.compareTo(b.name));
+            sortingDirection
+                ? catList.sort((a, b) => b.name.compareTo(a.name))
+                : catList.sort((a, b) => a.name.compareTo(b.name));
             break;
           case 2:
-            catList.sort((a, b) => a.place.compareTo(b.place));
+            sortingDirection
+                ? catList.sort((a, b) => b.place.compareTo(a.place))
+                : catList.sort((a, b) => a.place.compareTo(b.place));
             break;
           case 3:
-            catList.sort((a, b) => a.reward.compareTo(b.reward));
+            sortingDirection
+                ? catList.sort((a, b) => b.reward.compareTo(a.reward))
+                : catList.sort((a, b) => a.reward.compareTo(b.reward));
             break;
           case 4:
-            catList.sort((a, b) => a.date.compareTo(b.date));
+            sortingDirection
+                ? catList.sort((a, b) => b.date.compareTo(a.date))
+                : catList.sort((a, b) => a.date.compareTo(b.date));
             break;
           case 5:
-            catList.sort((a, b) => a.id.compareTo(b.id));
+            sortingDirection
+                ? catList.sort((a, b) => b.id.compareTo(a.id))
+                : catList.sort((a, b) => a.id.compareTo(b.id));
             break;
           default:
             debugPrint("unhandled cat sorting switch");
@@ -93,6 +104,7 @@ class SortingOptions extends ConsumerWidget {
     bool isDarkMode = brightness == Brightness.dark;
 
     int? value = int.parse(ref.watch(chipCounterProvider).toString());
+    //bool direction = ref.watch(chipCounterDirectionProvider);
 
     return SizedBox(
       height: 50,
@@ -104,7 +116,13 @@ class SortingOptions extends ConsumerWidget {
             child: ChoiceChip(
               selected: value == 1,
               onSelected: (bool selected) {
-                ref.read(chipCounterProvider.notifier).set(1);
+                if (value == 1) {
+                  ref.read(chipCounterDirectionProvider.notifier).state =
+                      !ref.read(chipCounterDirectionProvider.notifier).state;
+                } else {
+                  ref.read(chipCounterDirectionProvider.notifier).state = false;
+                  ref.read(chipCounterProvider.notifier).set(1);
+                }
               },
               elevation: 20,
               padding:
@@ -134,7 +152,13 @@ class SortingOptions extends ConsumerWidget {
             child: ChoiceChip(
               selected: value == 2,
               onSelected: (bool selected) {
-                ref.read(chipCounterProvider.notifier).set(2);
+                if (value == 2) {
+                  ref.read(chipCounterDirectionProvider.notifier).state =
+                  !ref.read(chipCounterDirectionProvider.notifier).state;
+                } else {
+                  ref.read(chipCounterDirectionProvider.notifier).state = false;
+                  ref.read(chipCounterProvider.notifier).set(2);
+                }
               },
               elevation: 20,
               padding:
@@ -164,7 +188,13 @@ class SortingOptions extends ConsumerWidget {
             child: ChoiceChip(
               selected: value == 3,
               onSelected: (bool selected) {
-                ref.read(chipCounterProvider.notifier).set(3);
+                if (value == 3) {
+                  ref.read(chipCounterDirectionProvider.notifier).state =
+                  !ref.read(chipCounterDirectionProvider.notifier).state;
+                } else {
+                  ref.read(chipCounterDirectionProvider.notifier).state = false;
+                  ref.read(chipCounterProvider.notifier).set(3);
+                }
               },
               elevation: 20,
               padding:
@@ -194,7 +224,13 @@ class SortingOptions extends ConsumerWidget {
             child: ChoiceChip(
               selected: value == 4,
               onSelected: (bool selected) {
-                ref.read(chipCounterProvider.notifier).set(4);
+                if (value == 4) {
+                  ref.read(chipCounterDirectionProvider.notifier).state =
+                  !ref.read(chipCounterDirectionProvider.notifier).state;
+                } else {
+                  ref.read(chipCounterDirectionProvider.notifier).state = false;
+                  ref.read(chipCounterProvider.notifier).set(4);
+                }
               },
               elevation: 20,
               padding:
@@ -224,7 +260,13 @@ class SortingOptions extends ConsumerWidget {
             child: ChoiceChip(
               selected: value == 5,
               onSelected: (bool selected) {
-                ref.read(chipCounterProvider.notifier).set(5);
+                if (value == 5) {
+                  ref.read(chipCounterDirectionProvider.notifier).state =
+                  !ref.read(chipCounterDirectionProvider.notifier).state;
+                } else {
+                  ref.read(chipCounterDirectionProvider.notifier).state = false;
+                  ref.read(chipCounterProvider.notifier).set(5);
+                }
               },
               elevation: 20,
               padding:

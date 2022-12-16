@@ -11,3 +11,5 @@ class Counter extends StateNotifier<int> {
     state = value;
   }
 }
+
+final chipCounterDirectionProvider = StateProvider<bool>((ref) => false);
