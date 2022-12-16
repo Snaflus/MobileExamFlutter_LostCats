@@ -6,6 +6,7 @@ import 'package:mobile_exam_flutter_lostcats/src/presentation/popup_menu.dart';
 import '../data/cat_providers.dart';
 import '../data/cat_repository.dart';
 import '../data/firebase_providers.dart';
+import '../data/sorting_providers.dart';
 import '../domain/cat.dart';
 import 'create_page.dart';
 
@@ -59,6 +60,177 @@ class CatList extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class SortingOptions extends ConsumerWidget {
+  const SortingOptions({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isDarkMode = brightness == Brightness.dark;
+
+    int? value = int.parse(ref.watch(chipCounterProvider).toString());
+
+    return SizedBox(
+      height: 50,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: ChoiceChip(
+              selected: value == 1,
+              onSelected: (bool selected) {
+                ref.read(chipCounterProvider.notifier).set(1);
+              },
+              elevation: 20,
+              padding:
+                  const EdgeInsets.only(left: 8, top: 4, right: 4, bottom: 4),
+              selectedColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.inversePrimary
+                  : ThemeData.light().colorScheme.inversePrimary,
+              backgroundColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.secondary
+                  : ThemeData.light().colorScheme.secondary,
+              shadowColor: Colors.black,
+              avatar: Icon(Icons.sort_by_alpha,
+                  color: isDarkMode
+                      ? ThemeData.dark().primaryColor
+                      : ThemeData.light().colorScheme.onSecondary),
+              label: Text(
+                "Name",
+                style: TextStyle(
+                    color: isDarkMode
+                        ? ThemeData.dark().primaryColor
+                        : ThemeData.light().colorScheme.onSecondary),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: ChoiceChip(
+              selected: value == 2,
+              onSelected: (bool selected) {
+                ref.read(chipCounterProvider.notifier).set(2);
+              },
+              elevation: 20,
+              padding:
+                  const EdgeInsets.only(left: 8, top: 4, right: 4, bottom: 4),
+              selectedColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.inversePrimary
+                  : ThemeData.light().colorScheme.inversePrimary,
+              backgroundColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.secondary
+                  : ThemeData.light().colorScheme.secondary,
+              shadowColor: Colors.black,
+              avatar: Icon(Icons.sort_by_alpha,
+                  color: isDarkMode
+                      ? ThemeData.dark().primaryColor
+                      : ThemeData.light().colorScheme.onSecondary),
+              label: Text(
+                "Place",
+                style: TextStyle(
+                    color: isDarkMode
+                        ? ThemeData.dark().primaryColor
+                        : ThemeData.light().colorScheme.onSecondary),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: ChoiceChip(
+              selected: value == 3,
+              onSelected: (bool selected) {
+                ref.read(chipCounterProvider.notifier).set(3);
+              },
+              elevation: 20,
+              padding:
+                  const EdgeInsets.only(left: 8, top: 4, right: 4, bottom: 4),
+              selectedColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.inversePrimary
+                  : ThemeData.light().colorScheme.inversePrimary,
+              backgroundColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.secondary
+                  : ThemeData.light().colorScheme.secondary,
+              shadowColor: Colors.black,
+              avatar: Icon(Icons.sort_by_alpha,
+                  color: isDarkMode
+                      ? ThemeData.dark().primaryColor
+                      : ThemeData.light().colorScheme.onSecondary),
+              label: Text(
+                "Reward",
+                style: TextStyle(
+                    color: isDarkMode
+                        ? ThemeData.dark().primaryColor
+                        : ThemeData.light().colorScheme.onSecondary),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: ChoiceChip(
+              selected: value == 4,
+              onSelected: (bool selected) {
+                ref.read(chipCounterProvider.notifier).set(4);
+              },
+              elevation: 20,
+              padding:
+                  const EdgeInsets.only(left: 8, top: 4, right: 4, bottom: 4),
+              selectedColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.inversePrimary
+                  : ThemeData.light().colorScheme.inversePrimary,
+              backgroundColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.secondary
+                  : ThemeData.light().colorScheme.secondary,
+              shadowColor: Colors.black,
+              avatar: Icon(Icons.sort_by_alpha,
+                  color: isDarkMode
+                      ? ThemeData.dark().primaryColor
+                      : ThemeData.light().colorScheme.onSecondary),
+              label: Text(
+                "Date",
+                style: TextStyle(
+                    color: isDarkMode
+                        ? ThemeData.dark().primaryColor
+                        : ThemeData.light().colorScheme.onSecondary),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: ChoiceChip(
+              selected: value == 5,
+              onSelected: (bool selected) {
+                ref.read(chipCounterProvider.notifier).set(5);
+              },
+              elevation: 20,
+              padding:
+                  const EdgeInsets.only(left: 8, top: 4, right: 4, bottom: 4),
+              selectedColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.inversePrimary
+                  : ThemeData.light().colorScheme.inversePrimary,
+              backgroundColor: isDarkMode
+                  ? ThemeData.dark().colorScheme.secondary
+                  : ThemeData.light().colorScheme.secondary,
+              shadowColor: Colors.black,
+              avatar: Icon(Icons.sort_by_alpha,
+                  color: isDarkMode
+                      ? ThemeData.dark().primaryColor
+                      : ThemeData.light().colorScheme.onSecondary),
+              label: Text(
+                "ID",
+                style: TextStyle(
+                    color: isDarkMode
+                        ? ThemeData.dark().primaryColor
+                        : ThemeData.light().colorScheme.onSecondary),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -137,8 +309,8 @@ class CatSearchDelegate extends SearchDelegate {
             title: Text(result.name),
             subtitle: Text(result.place),
             trailing: const CircleAvatar(
-            backgroundImage: AssetImage('images/cat.png'),
-          ),
+              backgroundImage: AssetImage('images/cat.png'),
+            ),
           ),
         );
       },
@@ -192,10 +364,11 @@ class _ListPageState extends State<ListPage> {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const <Widget>[
+              SortingOptions(),
               CatList(),
             ],
           ),

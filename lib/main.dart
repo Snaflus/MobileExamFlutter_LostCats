@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
-      themeMode: ThemeMode.dark, //dark, light, system
+      themeMode: ThemeMode.system, //dark, light, system
       debugShowCheckedModeBanner: false,
       home: const ListPage(title: 'Lost Cats List'),
     );
