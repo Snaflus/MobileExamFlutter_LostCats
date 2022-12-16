@@ -27,12 +27,32 @@ class CatList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cats = ref.watch(catsDataProvider);
+    int? sortingValue = int.parse(ref.watch(chipCounterProvider).toString());
 
     return cats.when(
       loading: () => const CircularProgressIndicator(),
       error: (err, stack) => Text('Error: $err'),
       data: (cats) {
         catList = cats.map((e) => e).toList();
+        switch (sortingValue) {
+          case 1:
+            catList.sort((a, b) => a.name.compareTo(b.name));
+            break;
+          case 2:
+            catList.sort((a, b) => a.place.compareTo(b.place));
+            break;
+          case 3:
+            catList.sort((a, b) => a.reward.compareTo(b.reward));
+            break;
+          case 4:
+            catList.sort((a, b) => a.date.compareTo(b.date));
+            break;
+          case 5:
+            catList.sort((a, b) => a.id.compareTo(b.id));
+            break;
+          default:
+            debugPrint("unhandled cat sorting switch");
+        }
         return Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
