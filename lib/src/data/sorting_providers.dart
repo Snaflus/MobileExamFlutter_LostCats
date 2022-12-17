@@ -10,6 +10,8 @@ class Counter extends StateNotifier<int> {
   void set(int value) {
     state = value;
   }
+
+  void increment() => state++; //unused, added for demonstration in report
 }
 
 final chipCounterDirectionProvider = StateProvider<bool>((ref) => false);
